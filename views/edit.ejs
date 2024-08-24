@@ -2,36 +2,43 @@
     <div class="row">
         <div class="col-8 offset-2">
 
-    <form method="post" action="/update/<%= currentproduct._id %>?_method=PUT">
+    <form method="post" action="/update/<%= currentproduct._id %>?_method=PUT" class="needs-validation" novalidate>
         <br><br>
         <div class="mb-3">
             <label class="form-label" for="title" >Title:</label>
-            <input class="form-control" type="text" name="title" id="title" placeholder="Title" value="<%=currentproduct.title %>">
+            <input class="form-control" type="text" name="title" id="title" placeholder="Title" value="<%=currentproduct.title %>" required>
+            <div class="invalid-feedback">Please Enter Title</div>
         </div>
          <div class="mb-3">
             <label class="form-label" for="description">Description:</label> <br>
-        <textarea class="form-control" name="description" id="description" placeholder="description"> <%=currentproduct.description %></textarea>
+        <textarea class="form-control" name="description" id="description" placeholder="description" required> <%=currentproduct.description %></textarea>
+        <div class="invalid-feedback">Please Enter a sort Description</div>
          </div>
        <div class="mb-3">
         <label class="form-label" for="filename">Image Filename:</label>
-        <input class="form-control" type="text" name="image[filename]" id="filename" placeholder="Image Filename" value="<%=currentproduct.image.filename %>"  > 
+        <input class="form-control" type="text" name="image[filename]" id="filename" placeholder="Image Filename" value="<%=currentproduct.image.filename %>" required > 
+        <div class="invalid-feedback">Please enter image Filename</div>
        </div>
        <div class="mb-3">
-        <label class="form-label" for="url">IMage Url:</label>
-        <input class="form-control" type="url" name="image[url]" id="url" placeholder="Image URL"  value="<%=currentproduct.image.url %> " >
+        <label class="form-label" for="url">Image Url:</label>
+        <input class="form-control" type="url" name="image[url]" id="url" placeholder="Image URL"  value="<%=currentproduct.image.url %> "  required>
+        <div class="invalid-feedback">Please Enter image url</div>
        </div>
         <div class="mb-3">
             <label class="form-label" for="price">Price:</label>
-        <input class="form-control" type="number" name="price" id="price" placeholder="price" value="<%= currentproduct.price %>" >
+        <input class="form-control" type="number" name="price" id="price" placeholder="price" value="<%= currentproduct.price %>" required >
+        <div class="invalid-feedback">Please Enter The Price</div>
         </div>
        <div class="row">
         <div class="mb-3 col-7">
             <label class="form-label" for="location">Location:</label>
-            <input class="form-control" type="text" name="location" id="location" placeholder="location"  value="<%=currentproduct.location %>">
+            <input class="form-control" type="text" name="location" id="location" placeholder="location"  value="<%=currentproduct.location %>" required>
+            <div class="invalid-feedback">Please Enter The Location</div>
            </div>
             <div class="mb-3 col-5">
                 <label class="form-label" for="country">country:</label>
-                <input class="form-control" type="text" name="country" placeholder="country"  value="<%=currentproduct.country %> ">
+                <input class="form-control" type="text" name="country" placeholder="country"  value="<%=currentproduct.country %> " required>
+                <div class="invalid-feedback">Please Enter The country</div>
             </div>
        </div>
        <br>
