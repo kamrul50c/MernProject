@@ -1,0 +1,41 @@
+<% layout('/layouts/boilerplate') -%>
+
+<div class="row">
+    <div class="col-8 offset-2">
+    <form method="post" action="/create">
+        <br><br>
+        <h1>Create a new listing</h1>
+       <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text"class="form-control" name="title" id="title" placeholder="">
+       </div>
+       <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control"  name="description" id="description" placeholder=""></textarea> 
+       </div>
+      <div class="mb-3">
+        <label for="filename" class="form-label">Image Filename</label>
+        <input class="form-control" type="text" name="image[filename]" id="filename" placeholder="">
+      </div>
+       <div class="mb-3">
+        <label for="url" class="form-label">Image Url</label>
+        <input class="form-control" type="url" name="image[url]" id="url" placeholder="" >
+       </div>
+       <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input class="form-control" type="number" name="price" id="price" placeholder="">
+       </div>
+       <div class="row">
+        <div class="mb-3 col-md-7">
+            <label for="location" class="form-label">Location</label>
+            <input class="form-control" type="text" name="location" id="location" placeholder="">
+           </div>
+           <div class="mb-3 col-md-5">
+            <label for="country" class="form-label">Country</label>
+            <input class="form-control" type="text" name="country" placeholder="" id="country"> 
+           </div>
+       </div>
+        <button class="btn btn-dark create-btn"> create</button>
+    </form>
+</div>
+</div>
