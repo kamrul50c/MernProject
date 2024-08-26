@@ -90,12 +90,7 @@ app.delete("/delete/:id",wrap_async( async (req, res) => {
 //update route
 
 app.get("/edit/:id",wrap_async( async (req, res) => {
-  //Scema validation
-  const {error}=productSchema.validate(req.body);
-if (error) {
-  console.log(error.details);
- throw new Cerror(400, error.details[0].message);  // Handle validation error
-}
+ 
   let { id } = req.params;
   let currentproduct = await listening.findById(id);
   res.render("edit.ejs", { currentproduct });
@@ -103,16 +98,13 @@ if (error) {
 
 app.put("/update/:id",wrap_async( async (req, res) => {
 
-  const { title, description, price, location, country } = req.body;
- // Check if req.body or required fields are missing
- if (!req.body || !title || !description || !price || !location || !country) {
-  throw new Cerror(400, "Invalid or missing data");
-}
- // Validate that price is a non-negative number
- const priceValue = parseFloat(price);
- if (isNaN(priceValue) || priceValue < 0) {
-   throw new Cerror(400, "Price must be a number and non-negative");
- }
+   //Scema validation
+   const {error}=productSchema.validate(req.body);
+   if (error) {
+     console.log(error.details);
+    throw new Cerror(400, error.details[0].message);  // Handle validation error
+   }
+   
   let { id } = req.params;
   let updateData = req.body;
   await listening.findByIdAndUpdate(id, updateData, {
