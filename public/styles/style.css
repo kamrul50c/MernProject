@@ -46,9 +46,12 @@ body{
     padding-left: .5rem;
 }
 
-
-
+/* home page */
+.home-container{
+    margin-top: 1.5rem !important;
+}
 /* cards */
+
 
 .card{
     border: none !important;
@@ -105,10 +108,16 @@ body{
 
 .edit-delete-btn{
     display: flex;
-
 }
 .delete-btn{
     background-color: #FF385C;
     border: none;
     margin-left: 1rem;
+}
+
+/* root page */
+
+.load-btn{
+    background-color: #FF385C;
+    border: none;
 }

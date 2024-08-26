@@ -1,10 +1,10 @@
-<% layout('/layouts/boilerplate') -%>
+<% layout('/layouts/boilerplate') %>
 
 <body>
 
-<div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2" >
+<div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 home-container" >
     <% for( data of list) { %>
-        <a href="/show/<%=data._id%>" class="card-link">
+        <a href="/show/<%=data._id%>" class="card-link ">
         <div class="card col" >
             <img src="<%= data.image.url %>" class="card-img-top " alt="<%=data.image.filename%> " style="height: 20rem;">
             <div class="card-img-overlay"></div>
