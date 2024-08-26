@@ -7,8 +7,9 @@ const listening = require("./models/listening.js");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const Cerror = require("./utility/ExpressError.js");
-
 const Wrap_async=require("./utility/wrap_async.js");
+const productSchema = require("./productSchema.js"); 
+
 
 const { runInNewContext } = require("vm");
 const wrap_async = require("./utility/wrap_async.js");
@@ -66,31 +67,12 @@ app.get("/new", (req, res) => {
 app.post("/create", wrap_async(  async (req, res,next) => {
 
 
-  const { title, description, price, location, country } = req.body;
-
-  // Check if req.body or required fields are missing
-  if (!req.body || !title || !description || !price || !location || !country) {
-    throw new Cerror(400, "Invalid or missing data");
-  }
-
-  // Validate that price is a non-negative number
-  const priceValue = parseFloat(price);
-  if (isNaN(priceValue) || priceValue < 0) {
-    throw new Cerror(400, "Price must be a number and non-negative");
-  }
-    
-
-  //   let {title,description,price,location,country}=req.body;
-  //   let product= new listening({
-  //     title:title,
-  //     description:description,
-  //     price:price,
-  //     location:location,
-  //     country:country,
-  //   });
-  // await product.save();
-
-
+const {error}=productSchema.validate(req.body);
+if (error) {
+  console.log(error.details);
+ throw new Cerror(400, error.details[0].message);  // Handle validation error
+}
+  
   let newproduct = new listening(req.body);
   await newproduct.save();
 
@@ -108,6 +90,12 @@ app.delete("/delete/:id",wrap_async( async (req, res) => {
 //update route
 
 app.get("/edit/:id",wrap_async( async (req, res) => {
+  //Scema validation
+  const {error}=productSchema.validate(req.body);
+if (error) {
+  console.log(error.details);
+ throw new Cerror(400, error.details[0].message);  // Handle validation error
+}
   let { id } = req.params;
   let currentproduct = await listening.findById(id);
   res.render("edit.ejs", { currentproduct });
