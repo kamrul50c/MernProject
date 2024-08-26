@@ -7,9 +7,8 @@ const listening = require("./models/listening.js");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const Cerror = require("./utility/ExpressError.js");
-const Wrap_async=require("./utility/wrap_async.js");
-const productSchema = require("./productSchema.js"); 
-
+const Wrap_async = require("./utility/wrap_async.js");
+const productSchema = require("./productSchema.js");
 
 const { runInNewContext } = require("vm");
 const wrap_async = require("./utility/wrap_async.js");
@@ -19,7 +18,7 @@ app.use(methodOverride("_method"));
 app.use(express.json());
 // Set up EJS as the view engine
 app.set("views", path.join(__dirname, "/views"));
-app.use(express.static(path.join(__dirname,"/public")));
+app.use(express.static(path.join(__dirname, "/public")));
 app.set("view engine", "ejs");
 
 app.engine("ejs", ejsMate);
@@ -36,6 +35,16 @@ async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/prdb");
 }
 
+const validateproduct = (req, res, next) => {
+  const { error } = productSchema.validate(req.body);
+  if (error) {
+    let msgerr=error.details.map((el)=>el.message).join(",")
+    throw new Cerror(400, msgerr); // Handle validation error
+  } else {
+    next();
+  }
+};
+
 //root route
 
 app.get("/", (req, res) => {
@@ -43,19 +52,24 @@ app.get("/", (req, res) => {
 });
 
 //home route
-app.get("/index",wrap_async( async (req, res) => {
-  let list = await listening.find();
-  res.render("home.ejs", { list });
-}));
+app.get(
+  "/index",
+  wrap_async(async (req, res) => {
+    let list = await listening.find();
+    res.render("home.ejs", { list });
+  })
+);
 
 //show route
 
-app.get("/show/:id",wrap_async( async (req, res) => {
-  
-  let { id } = req.params;
-  const product = await listening.findById(id);
-  res.render("show.ejs", { product });
-}));
+app.get(
+  "/show/:id",
+  wrap_async(async (req, res) => {
+    let { id } = req.params;
+    const product = await listening.findById(id);
+    res.render("show.ejs", { product });
+  })
+);
 
 // new
 
@@ -64,64 +78,61 @@ app.get("/new", (req, res) => {
 });
 
 //create
-app.post("/create", wrap_async(  async (req, res,next) => {
+app.post(
+  "/create",
+  validateproduct,
+  wrap_async(async (req, res, next) => {
+    let newproduct = new listening(req.body);
+    await newproduct.save();
 
-
-const {error}=productSchema.validate(req.body);
-if (error) {
-  console.log(error.details);
- throw new Cerror(400, error.details[0].message);  // Handle validation error
-}
-  
-  let newproduct = new listening(req.body);
-  await newproduct.save();
-
-  res.redirect("/index");
-}));
+    res.redirect("/index");
+  })
+);
 
 // /delete route
 
-app.delete("/delete/:id",wrap_async( async (req, res) => {
-  let { id } = req.params;
-  await listening.findByIdAndDelete(id);
-  res.redirect("/index");
-}));
+app.delete(
+  "/delete/:id",
+  wrap_async(async (req, res) => {
+    let { id } = req.params;
+    await listening.findByIdAndDelete(id);
+    res.redirect("/index");
+  })
+);
 
 //update route
 
-app.get("/edit/:id",wrap_async( async (req, res) => {
- 
-  let { id } = req.params;
-  let currentproduct = await listening.findById(id);
-  res.render("edit.ejs", { currentproduct });
-}));
+app.get(
+  "/edit/:id",
+  wrap_async(async (req, res) => {
+    let { id } = req.params;
+    let currentproduct = await listening.findById(id);
+    res.render("edit.ejs", { currentproduct });
+  })
+);
 
-app.put("/update/:id",wrap_async( async (req, res) => {
+app.put(
+  "/update/:id",
+  validateproduct,
+  wrap_async(async (req, res) => {
+    let { id } = req.params;
+    let updateData = req.body;
+    await listening.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    });
 
-   //Scema validation
-   const {error}=productSchema.validate(req.body);
-   if (error) {
-     console.log(error.details);
-    throw new Cerror(400, error.details[0].message);  // Handle validation error
-   }
-   
-  let { id } = req.params;
-  let updateData = req.body;
-  await listening.findByIdAndUpdate(id, updateData, {
-    new: true,
-    runValidators: true,
-  });
+    res.redirect("/index");
+  })
+);
 
-  res.redirect("/index");
-}));
-
-// invalid route 
-app.all("*",(req,res,next)=>{
-  next(new Cerror(404,"page not found"));
+// invalid route
+app.all("*", (req, res, next) => {
+  next(new Cerror(404, "page not found"));
 });
 
 //express error
-app.use((err,req,res,next)=>{
-  let {status=500, message="some Error found"}=err;
-  res.status(status).render("Error.ejs",{err});
+app.use((err, req, res, next) => {
+  let { status = 500, message = "some Error found" } = err;
+  res.status(status).render("Error.ejs", { err });
 });
