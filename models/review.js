@@ -1,5 +1,5 @@
 const mongoose=require("mongoose");
-const { strict, type, min, max } = require("../productSchema");
+const { strict, type, min, max } = require("../validateSchema/productSchema");
 const { date } = require("joi");
 
 const  reviewSchema= new mongoose.Schema({

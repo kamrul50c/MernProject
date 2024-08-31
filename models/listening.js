@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { type, max, $ } = require("../productSchema");
+const { type, max, $ } = require("../validateSchema/productSchema.js");
 const review=require("./review.js");
 
 // Define the schema for the image field
