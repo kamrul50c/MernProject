@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
+const { type, max, $ } = require("../productSchema");
+const review=require("./review.js");
 
 // Define the schema for the image field
 const ImageSchema = new mongoose.Schema({
+    _id:false,
     filename: {
         type: String,
     },
@@ -26,13 +29,24 @@ const Dataschema = new mongoose.Schema({
     price: {
         type: Number,
         required: true,
+    
     },
     location: {
         type: String,
     },
     country: {
         type: String,
+    },
+    review:[{ 
+        type:  mongoose.Schema.Types.ObjectId,
+        ref:"review"
     }
+    ]
+});
+
+
+Dataschema.post("findOneAndDelete", async(product)=>{
+    await review.deleteMany({_id:{$in:product.review}});
 });
 
 // Create the model from the schema

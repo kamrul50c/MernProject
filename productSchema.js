@@ -12,4 +12,4 @@ const productSchema = Joi.object({
   }).optional(),
 });
 
-module.exports = productSchema;  // Correct export
+module.exports = productSchema;  

@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-9 mt-2 offset-2 mt-3">
         <h2><%= product.title %></h2>
-<div class="card">
+<div class="card product_card">
     <div class="col-9 " >
         <img src="<%= product.image.url %>" class="card-img-top show-image" alt="<%=product.image.filename %>">
     </div>
@@ -20,6 +20,41 @@
         <button class="btn btn-dark delete-btn"><i class="fa-solid fa-trash"></i>&nbsp;Delete</button>
     </form>
    </div>
+   <div class="review col-9 mb-3 offset-2 mt-3 ">
+    <form method="post" action="/product/<%=product._id%>/review" class="needs-validation" novalidate>
+      <div >
+        <label for="rating">Rating: </label>
+        <input  type="range" id="rating" max="5" min="1" name="rating" value="4">
+      </div>
+      <div >
+        <label class="form-label" for="comment">Write Comment: </label>
+        <textarea class="form-control" name="comment" id="comment" required></textarea>
+        <div class="invalid-feedback">please write you review first</div>
+      </div>
+      <button class="btn btn-dark review-btn mt-2">submit</button>
+    </form>
+    <hr>
+    <p>All listing</p>
+    <div class="row ">
+      <% for(review of product.review) {  %>    
+        <div class="card col-5 ms-2 mt-2 mb-2">
+          <div class="card-body">
+            <h5 class="card-title"> kh siamon</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary"><%=review.rating%></h6>
+            <p class="card-text"><%= review.comment%></p>
+            
+          </div>
+          <div class="form">
+            
+              <form method="post" action="/product/<%=product._id%>/remove/<%=review._id%>?_method=DELETE">
+                <button style="color: brown;" class="btn mb-2 offset-9">Delete</button>
+              </form>
+          </div>
+        </div>
+        <%}%>
+      
+    </div>
+ </div>
 </div>
 
 

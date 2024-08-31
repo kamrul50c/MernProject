@@ -66,7 +66,7 @@ app.get(
   "/show/:id",
   wrap_async(async (req, res) => {
     let { id } = req.params;
-    const product = await listening.findById(id);
+    const product = await listening.findById(id).populate("review");
     res.render("show.ejs", { product });
   })
 );
@@ -125,6 +125,44 @@ app.put(
     res.redirect("/index");
   })
 );
+
+// review 
+const review=require("./models/review.js");
+//validate schema require 
+const reviewSchema=require("./reviewvaliditation.js");
+
+const reviewValidate=(req,res,next)=>{
+  
+  const { error } = reviewSchema.validate(req.body);
+  if (error) {
+    let msgerr=error.details.map((el)=>el.message).join(",")
+    throw new Cerror(400, msgerr); // Handle validation error
+  } else {
+    next();
+  }
+
+};
+//review  post route
+app.post("/product/:id/review", reviewValidate, wrap_async(  async (req,res)=>{
+  let rproduct=await listening.findById(req.params.id);
+  let newReview= new review(req.body);
+  rproduct.review.push(newReview);
+
+  await rproduct.save();
+  await newReview.save();
+
+  res.redirect(`/show/${rproduct._id}`);
+
+}))
+
+//review delete route
+app.delete("/product/:id/remove/:reviewid",wrap_async( async(req,res,err)=>{
+       let {id, reviewid}=req.params;
+       await review.findByIdAndDelete(reviewid);
+       await listening.findByIdAndUpdate(id,{$pull:{review:reviewid}});
+       res.redirect(`/show/${id}`);
+
+}));
 
 // invalid route
 app.all("*", (req, res, next) => {
