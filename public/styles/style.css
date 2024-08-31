@@ -5,6 +5,7 @@ body{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+
 }
 
 .container{
@@ -53,10 +54,11 @@ body{
 /* cards */
 
 
-.card{
+.product_card{
     border: none !important;
     margin-bottom: 2rem;
 }
+
 .card-img-top{
     border-radius: 1rem;
     width: 100% !important;
@@ -114,6 +116,10 @@ body{
     border: none;
     margin-left: 1rem;
 }
+.review-btn{
+    background-color: #FF385C;
+    border: none;
+}
 
 /* root page */
 
@@ -121,3 +127,4 @@ body{
     background-color: #FF385C;
     border: none;
 }
+
