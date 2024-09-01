@@ -12,6 +12,8 @@ const { runInNewContext } = require("vm");
 
 const listing=require("./routes/listing.js");
 const review=require("./routes/review.js");
+const session=require("express-session");
+const flash = require("connect-flash");
 
 app.use(methodOverride("_method"));
 
@@ -35,8 +37,38 @@ async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/prdb");
 }
 
+
+
+//session
+const sessionoption={
+  secret:"mysuppersecrat",
+  resave:false,
+  saveUninitialized:true,
+  cookie:{
+    expires:Date.now()+7*24*60*60*1000,
+    maxAge:7*24*60*60*1000,
+    httpOnly:true
+  }
+}
+
+
+
+app.use(session(sessionoption));
+app.use(flash());
+
+app.use((req,res,next)=>{
+  res.locals.success=req.flash("msg");
+  res.locals.error=req.flash("err");
+  res.locals.deleteMessage =req.flash("dlt");
+  next();
+});
+
+//route 
 app.use("/",listing);
 app.use("/",review);
+
+
+
 
 // invalid route
 app.all("*", (req, res, next) => {
