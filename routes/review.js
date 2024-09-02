@@ -29,7 +29,7 @@ route.post("/product/:id/review", reviewValidate, wrap_async(  async (req,res)=>
   rproduct.review.push(newReview);
   await rproduct.save();
   await newReview.save();
-    req.flash("msg","A new review added");
+    req.flash("success","A new review added");
   res.redirect(`/show/${rproduct._id}`);
 
 }))
@@ -39,7 +39,7 @@ route.delete("/product/:id/remove/:reviewid",wrap_async( async(req,res,err)=>{
        let {id, reviewid}=req.params;
        let selected_review=await review.findByIdAndDelete(reviewid);
        if(!selected_review){
-        req.flash("err","review that you have search dosen't exist");
+        req.flash("error","review that you have search dosen't exist");
        }
        await listening.findByIdAndUpdate(id,{$pull:{review:reviewid}});
        req.flash("dlt","succesfully delete The review!");

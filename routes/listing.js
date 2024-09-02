@@ -19,7 +19,7 @@ const validateproduct = (req, res, next) => {
 //flasherr function
   let flasherr=(value, msg,req,res)=>{
       if(!value){
-        req.flash("err",msg);
+        req.flash("error",msg);
         res.redirect("/index");
       }
   }
@@ -64,7 +64,7 @@ const validateproduct = (req, res, next) => {
     wrap_async(async (req, res, next) => {
       let newproduct = new listening(req.body);
       await newproduct.save();
-      req.flash("msg", "New listing created!");
+      req.flash("success", "New listing created!");
       res.redirect("/index");
     })
   );
@@ -103,7 +103,7 @@ const validateproduct = (req, res, next) => {
         new: true,
         runValidators: true,
       });
-      req.flash("msg","listing is updated");
+      req.flash("success","listing is updated");
   
       res.redirect(`/show/${id}`);
     })

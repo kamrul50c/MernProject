@@ -12,10 +12,11 @@ const { runInNewContext } = require("vm");
 
 const listing=require("./routes/listing.js");
 const review=require("./routes/review.js");
+const userroute=require("./routes/user.js");
 const session=require("express-session");
 const flash = require("connect-flash");
 const passport=require("passport");
-const localStrategy=require("passport-local");
+const LocalStrategy=require("passport-local");
 const possportlocalmongoose=require("passport-local-mongoose");
 const User=require("./models/user.js");
 
@@ -61,13 +62,13 @@ app.use(session(sessionoption));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new localStrategy(passport.authenticate()));
+passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req,res,next)=>{
-  res.locals.success=req.flash("msg");
-  res.locals.error=req.flash("err");
+  res.locals.success=req.flash("success");
+  res.locals.error=req.flash("error");
   res.locals.deleteMessage =req.flash("dlt");
   next();
 });
@@ -75,17 +76,11 @@ app.use((req,res,next)=>{
 //route 
 app.use("/",listing);
 app.use("/",review);
+app.use("/",userroute);
 
 
-app.get("/demmouser",async(req,res)=>{
-  let newuser=new User({
-    email:"khsaimon21@gmail.com",
-    username:"kh saimon"
-  });
 
- let registeruser= await User.register(newuser, "mdkhsaimon21@");
- res.send(registeruser);
-});
+
 
 // invalid route
 app.all("*", (req, res, next) => {
