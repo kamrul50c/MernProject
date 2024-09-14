@@ -55,4 +55,18 @@ route.post('/login',
       res.redirect('/index');
     }
   );
+
+
+
+  //logout
+route.get("/logout",(req,res,next)=>{
+  req.logOut((err)=>{
+    if(err){
+      return next(err);
+    }else{
+      req.flash("dlt","logout succesfull");
+      res.redirect("/index");
+    }
+  })
+})
 module.exports = route;
