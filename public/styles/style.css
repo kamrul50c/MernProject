@@ -128,3 +128,9 @@ body{
     border: none;
 }
 
+
+/* review  */
+.star {
+    color: gold;
+    font-size: 24px;
+}

@@ -33,7 +33,7 @@ route.post(
       req.flash("msuccess", "User registration succesfull");
       res.redirect("/index");
     } catch (e) {
-      req.flash("err", e.message);
+      req.flash("error", e.message);
       res.redirect("/signup");
     }
   })

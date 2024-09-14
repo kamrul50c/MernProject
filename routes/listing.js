@@ -16,7 +16,7 @@ const validateproduct = (req, res, next) => {
       next();
     }
   };
-//flasherr function
+//flash err function
   let flasherr=(value, msg,req,res)=>{
       if(!value){
         req.flash("error",msg);
@@ -54,6 +54,10 @@ const validateproduct = (req, res, next) => {
   // new
   
   route.get("/new", (req, res) => {
+    if(!req.isAuthenticated()){
+      req.flash("error","login first!");
+      return res.redirect("/login");
+    }
     res.render("create.ejs");
   });
   

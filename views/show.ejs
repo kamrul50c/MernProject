@@ -24,7 +24,7 @@
     <form method="post" action="/product/<%=product._id%>/review" class="needs-validation" novalidate>
       <div >
         <label for="rating">Rating: </label>
-        <input  type="range" id="rating" max="5" min="1" name="rating" value="4">
+        <input class="form-range mr-5" type="range" id="rating" max="5" min="1" name="rating" value="2" placeholder="">
       </div>
       <div >
         <label class="form-label" for="comment">Write Comment: </label>
@@ -40,7 +40,11 @@
         <div class="card col-5 ms-2 mt-2 mb-2">
           <div class="card-body">
             <h5 class="card-title"> kh siamon</h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary"><%=review.rating%></h6>
+            <h6 class="card-subtitle mb-2 text-body-secondary">
+              <% for(let i=0; i<(review.rating); i++) {%>
+                <span class="star">&#9733;</span>
+              <%}%>
+            </h6>
             <p class="card-text"><%= review.comment%></p>
             
           </div>
