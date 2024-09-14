@@ -10,6 +10,16 @@
           <a class="nav-link" href="/index">ALL Product</a>
           <a class="nav-link" href="/new">Add new</a>
         </div>
+        <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+          <div class="navbar-nav ms-auto">
+            <% if (!curentuser){ %>
+            <a class="nav-link active" aria-current="page" href="/signup">Sign Up</a>
+            <a class="nav-link" href="/login"> Log In</a>
+            <% }  %>
+            <% if(curentuser) { %>
+            <a class="nav-link" href="/logout">Log Out</a>
+            <% } %>
+          </div>
       </div>
     </div>
   </nav>
