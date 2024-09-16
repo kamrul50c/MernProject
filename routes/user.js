@@ -29,9 +29,17 @@ route.post(
     try {
       let { username, email, password } = req.body;
       const newuser = new usermodel({ username, email });
-      await usermodel.register(newuser, password);
-      req.flash("msuccess", "User registration succesfull");
-      res.redirect("/index");
+      const registrUser = await usermodel.register(newuser, password);
+      
+      // redirect page after sign up
+      req.login(registrUser,(err)=>{
+        if(err){
+          return next(err);
+        }else{
+          req.flash("msuccess", "User registration succesfull");
+          res.redirect("/index");
+        }
+      })
     } catch (e) {
       req.flash("error", e.message);
       res.redirect("/signup");
