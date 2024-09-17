@@ -3,6 +3,7 @@ const app = express();
 const port = 8080;
 const path = require("path");
 const mongoose = require("mongoose");
+const Cerror = require("./utility/ExpressError.js");
 
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
@@ -86,8 +87,11 @@ app.use("/",userroute);
 
 // invalid route
 app.all("*", (req, res, next) => {
+
+
   next(new Cerror(404, "page not found"));
 });
+
 
 //express error
 app.use((err, req, res, next) => {
