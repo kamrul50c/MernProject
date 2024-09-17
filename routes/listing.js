@@ -5,6 +5,7 @@ const wrap_async = require("../utility/wrap_async.js");
 const listening = require("../models/listening.js");
 const Cerror = require("../utility/ExpressError.js");
 const productSchema = require("../validateSchema/productSchema.js");
+const {islogin}= require("./middleware/isauthenticate.js");
 
 //validateproduct function
 const validateproduct = (req, res, next) => {
@@ -53,17 +54,17 @@ const validateproduct = (req, res, next) => {
   
   // new
   
-  route.get("/new", (req, res) => {
-    if(!req.isAuthenticated()){
-      req.flash("error","login first!");
-      return res.redirect("/login");
-    }
+  route.get("/new",
+    islogin,
+    (req, res) => {
+    
     res.render("create.ejs");
   });
   
   //create
   route.post(
     "/create",
+    islogin,
     validateproduct,
     wrap_async(async (req, res, next) => {
       let newproduct = new listening(req.body);
@@ -77,6 +78,7 @@ const validateproduct = (req, res, next) => {
   
   route.delete(
     "/delete/:id",
+    islogin,
     wrap_async(async (req, res) => {
       let { id } = req.params;
       await listening.findByIdAndDelete(id);
@@ -89,6 +91,7 @@ const validateproduct = (req, res, next) => {
   
   route.get(
     "/edit/:id",
+    islogin,
     wrap_async(async (req, res) => {
       let { id } = req.params;
       let currentproduct = await listening.findById(id);
@@ -99,6 +102,7 @@ const validateproduct = (req, res, next) => {
   
   route.put(
     "/update/:id",
+    islogin,
     validateproduct,
     wrap_async(async (req, res) => {
       let { id } = req.params;
