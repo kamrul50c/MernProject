@@ -70,6 +70,7 @@ const validateproduct = (req, res, next) => {
     validateproduct,
     wrap_async(async (req, res, next) => {
       let newproduct = new listening(req.body);
+      newproduct.owner=req.user._id;
       await newproduct.save();
       req.flash("success", "New listing created!");
       res.redirect("/index");
