@@ -62,7 +62,8 @@ route.post('/login', saverredirecturl,
     }), 
     async (req, res) => {
       req.flash('success', 'Successfully logged in');
-      res.redirect(res.locals.redirectUrl);
+      let redirectUrl=res.locals.redirectUrl || "/index" ;
+      res.redirect(redirectUrl);
     }
   );
 
