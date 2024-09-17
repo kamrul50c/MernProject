@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { type, max, $ } = require("../validateSchema/productSchema.js");
 const review=require("./review.js");
+const User=require("./user.js")
 
 // Define the schema for the image field
 const ImageSchema = new mongoose.Schema({
@@ -45,7 +46,7 @@ const Dataschema = new mongoose.Schema({
 
     owner:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:"user"
+        ref:"User"
     }
 });
 

@@ -6,6 +6,7 @@ const listening = require("../models/listening.js");
 const Cerror = require("../utility/ExpressError.js");
 const productSchema = require("../validateSchema/productSchema.js");
 const {islogin}= require("./middleware/isauthenticate.js");
+const user=require("../models/user.js")
 
 //validateproduct function
 const validateproduct = (req, res, next) => {
@@ -46,7 +47,8 @@ const validateproduct = (req, res, next) => {
     "/show/:id",
     wrap_async(async (req, res) => {
       let { id } = req.params;
-      const product = await listening.findById(id).populate("review");
+      const product = await listening.findById(id).populate("review").populate("owner");
+      
       flasherr(product ,"The listing you want to show doesn't exist",req,res);
       res.render("show.ejs", { product });
     })

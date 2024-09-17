@@ -7,6 +7,7 @@
         <img src="<%= product.image.url %>" class="card-img-top show-image" alt="<%=product.image.filename %>">
     </div>
     <div class="card-body mt-3">
+      <h4>post Created by: <b><%= product.owner.username %>&nbsp;</b></h4>
         <h4><b><%= product.location %>,&nbsp;<%= product.country %></b></h4>
         <p>price: &#36;<%= product.price.toLocaleString("en-US") %></p>
       <p class="card-text"><b>Description:</b><br><%= product.description %></p>
