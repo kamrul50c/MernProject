@@ -5,6 +5,8 @@ const Cerror = require("../utility/ExpressError.js");
 const usermodel = require("../models/user.js");
 const validateuser = require("../validateSchema/uservalidateSchema.js");
 const passport = require("passport");
+const { saverredirecturl } = require("./middleware/isauthenticate.js");
+
 
 //validateproduct function
 const validateuserf = (req, res, next) => {
@@ -53,14 +55,14 @@ route.get("/login", (req, res) => {
   res.render("login.ejs");
 });
 
-route.post('/login', 
+route.post('/login', saverredirecturl,
     passport.authenticate('local', {
       failureRedirect: '/login',failureFlash:true,
       
     }), 
     async (req, res) => {
       req.flash('success', 'Successfully logged in');
-      res.redirect('/index');
+      res.redirect(res.locals.redirectUrl);
     }
   );
 
