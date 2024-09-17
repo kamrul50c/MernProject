@@ -6,18 +6,18 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link active" aria-current="page" href="/">Home</a>
-          <a class="nav-link" href="/index">ALL Product</a>
-          <a class="nav-link" href="/new">Add new</a>
+          <a class="nav-link  btn-dark btn" aria-current="page" href="/">Home</a>
+          <a class="nav-link btn-dark btn" href="/index">ALL Product</a>
+          <a class="nav-link btn btn-dark" href="/new">Add new</a>
         </div>
         <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
           <div class="navbar-nav ms-auto">
             <% if (!curentuser){ %>
-            <a class="nav-link active" aria-current="page" href="/signup">Sign Up</a>
-            <a class="nav-link" href="/login"> Log In</a>
+            <a class="nav-link btn btn-dark " aria-current="page" href="/signup">Sign Up</a>
+            <a class="nav-link btn btn-dark " href="/login"> Log In</a>
             <% }  %>
             <% if(curentuser) { %>
-            <a class="nav-link" href="/logout">Log Out</a>
+            <a class="nav-link btn btn-dark load-btn" href="/logout">Log out</a>
             <% } %>
           </div>
       </div>
