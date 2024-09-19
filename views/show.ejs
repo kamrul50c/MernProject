@@ -15,12 +15,14 @@
   </div>
 
     </div>
+    <% if (curentuser && product.owner._id.equals(curentuser._id)) {   %>
    <div class="col-5 offset-2 edit-delete-btn">
     <a href="/edit/<%= product._id%>" class="btn btn-dark edit-btn"><i class="fa-solid fa-pen-to-square"></i>&nbsp;Edit</a>
     <form method="post" action="/delete/<%=product._id%>?_method=DELETE">
         <button class="btn btn-dark delete-btn"><i class="fa-solid fa-trash"></i>&nbsp;Delete</button>
     </form>
    </div>
+   <% } %>
    <div class="review col-9 mb-3 offset-2 mt-3 ">
     <form method="post" action="/product/<%=product._id%>/review" class="needs-validation" novalidate>
       <div >
