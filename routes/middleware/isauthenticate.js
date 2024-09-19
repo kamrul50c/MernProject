@@ -1,5 +1,5 @@
 const listening=require("../../models/listening.js")
-
+const reviewmodel=require("../../models/review.js");
 module.exports.islogin=(req,res,next)=>{
     if(!req.isAuthenticated()){
        
@@ -29,3 +29,15 @@ module.exports.isOwner =async (req,res,next)=>{
        }
        next()
 };
+
+
+module.exports.isreviewAuthor =async (req,res,next)=>{
+  let {id,reviewid}=req.params;
+  let review=await reviewmodel.findById(reviewid);
+      if(!review.Author._id.equals(res.locals.curentuser._id)){
+        req.flash("error","You don't have  permission to  delete this review");
+       return res.redirect(`/show/${id}`);
+       }
+       next()
+};
+

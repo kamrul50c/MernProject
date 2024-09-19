@@ -3,7 +3,7 @@ const route=express.Router({mergeParams:true});
 const wrap_async = require("../utility/wrap_async.js");
 const Cerror = require("../utility/ExpressError.js");
 const listening = require("../models/listening.js");
-const {islogin, isOwner}= require("./middleware/isauthenticate.js");
+const {islogin, isreviewAuthor }= require("./middleware/isauthenticate.js");
 
 
 
@@ -37,7 +37,7 @@ route.post("/product/:id/review",islogin, reviewValidate, wrap_async(  async (re
 }))
 
 //review delete route
-route.delete("/product/:id/remove/:reviewid",wrap_async( async(req,res,err)=>{
+route.delete("/product/:id/remove/:reviewid",islogin,isreviewAuthor,wrap_async( async(req,res)=>{
        let {id, reviewid}=req.params;
        let selected_review=await review.findByIdAndDelete(reviewid);
        if(!selected_review){
@@ -48,7 +48,5 @@ route.delete("/product/:id/remove/:reviewid",wrap_async( async(req,res,err)=>{
        res.redirect(`/show/${id}`);
 
 }));
-
-
 
 module.exports = route;
