@@ -1,3 +1,5 @@
+const listening=require("../../models/listening.js")
+
 module.exports.islogin=(req,res,next)=>{
     if(!req.isAuthenticated()){
        
@@ -14,4 +16,16 @@ module.exports.saverredirecturl=(req,res,next)=>{
   res.locals.redirectUrl=req.session.redirectUrl;
  }
  next()
+};
+
+
+
+module.exports.isOwner =async (req,res,next)=>{
+  let {id}=req.params;
+  let product=await listening.findById(id);
+      if(!product.owner._id.equals(res.locals.curentuser._id)){
+        req.flash("error","You don't have  permission to modify and delete");
+       return res.redirect(`/show/${id}`);
+       }
+       next()
 };

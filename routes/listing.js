@@ -5,7 +5,7 @@ const wrap_async = require("../utility/wrap_async.js");
 const listening = require("../models/listening.js");
 const Cerror = require("../utility/ExpressError.js");
 const productSchema = require("../validateSchema/productSchema.js");
-const {islogin}= require("./middleware/isauthenticate.js");
+const {islogin, isOwner}= require("./middleware/isauthenticate.js");
 const user=require("../models/user.js")
 
 //validateproduct function
@@ -82,6 +82,7 @@ const validateproduct = (req, res, next) => {
   route.delete(
     "/delete/:id",
     islogin,
+    isOwner,
     wrap_async(async (req, res) => {
       let { id } = req.params;
       await listening.findByIdAndDelete(id);
@@ -95,9 +96,10 @@ const validateproduct = (req, res, next) => {
   route.get(
     "/edit/:id",
     islogin,
+    isOwner,
     wrap_async(async (req, res) => {
       let { id } = req.params;
-      let currentproduct = await listening.findById(id);
+      const currentproduct = await listening.findById(id);
       flasherr(currentproduct,"The listing you have search dosen't exist",req,res);
       res.render("edit.ejs", { currentproduct });
     })
@@ -106,6 +108,7 @@ const validateproduct = (req, res, next) => {
   route.put(
     "/update/:id",
     islogin,
+    isOwner,
     validateproduct,
     wrap_async(async (req, res) => {
       let { id } = req.params;
