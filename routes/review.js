@@ -3,6 +3,7 @@ const route=express.Router({mergeParams:true});
 const wrap_async = require("../utility/wrap_async.js");
 const Cerror = require("../utility/ExpressError.js");
 const listening = require("../models/listening.js");
+const {islogin, isOwner}= require("./middleware/isauthenticate.js");
 
 
 
@@ -23,10 +24,11 @@ const reviewValidate=(req,res,next)=>{
 
 };
 //review  post route
-route.post("/product/:id/review", reviewValidate, wrap_async(  async (req,res)=>{
+route.post("/product/:id/review",islogin, reviewValidate, wrap_async(  async (req,res)=>{
   let rproduct=await listening.findById(req.params.id);
   let newReview= new review(req.body);
   rproduct.review.push(newReview);
+  newReview.Author=req.user._id;
   await rproduct.save();
   await newReview.save();
     req.flash("success","A new review added");

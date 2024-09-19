@@ -24,6 +24,7 @@
    </div>
    <% } %>
    <div class="review col-9 mb-3 offset-2 mt-3 ">
+    <% if (curentuser) { %>
     <form method="post" action="/product/<%=product._id%>/review" class="needs-validation" novalidate>
       <div >
         <label for="rating">Rating: </label>
@@ -36,6 +37,7 @@
       </div>
       <button class="btn btn-dark review-btn mt-2">submit</button>
     </form>
+    <% } %>
     <hr>
     <p>All listing</p>
     <div class="row ">
@@ -46,7 +48,7 @@
             <h6 class="card-subtitle mb-2 text-body-secondary">
               <% for(let i=0; i<(review.rating); i++) {%>
                 <span class="star">&#9733;</span>
-              <%}%>
+              <% } %>
             </h6>
             <p class="card-text"><%= review.comment%></p>
             

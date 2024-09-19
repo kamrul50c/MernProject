@@ -1,6 +1,6 @@
 const mongoose=require("mongoose");
 const { strict, type, min, max } = require("../validateSchema/productSchema");
-const { date } = require("joi");
+const { date, types } = require("joi");
 
 const  reviewSchema= new mongoose.Schema({
     comment:String,
@@ -10,6 +10,10 @@ const  reviewSchema= new mongoose.Schema({
     createdat:{
         type:Date,
         default:Date.now()
+    },
+    Author:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"user"
     }
 });
 
