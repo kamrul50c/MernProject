@@ -54,10 +54,11 @@
             
           </div>
           <div class="form">
-            
+              <% if (curentuser && review.Author._id.equals(curentuser._id)) { %>
               <form method="post" action="/product/<%=product._id%>/remove/<%=review._id%>?_method=DELETE">
                 <button style="color: brown;" class="btn mb-2 offset-9">Delete</button>
               </form>
+              <% } %>
           </div>
         </div>
         <%}%>
