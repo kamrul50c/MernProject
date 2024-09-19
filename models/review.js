@@ -13,7 +13,7 @@ const  reviewSchema= new mongoose.Schema({
     },
     Author:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"user"
+        ref:"User"
     }
 });
 

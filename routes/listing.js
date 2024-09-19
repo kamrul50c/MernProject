@@ -47,7 +47,14 @@ const validateproduct = (req, res, next) => {
     "/show/:id",
     wrap_async(async (req, res) => {
       let { id } = req.params;
-      const product = await listening.findById(id).populate("review").populate("owner");
+      const product = await listening.findById(id).populate(
+        {
+          path:"review",
+          populate:{
+            path:"Author",
+          },
+      })
+      .populate("owner");
       
       flasherr(product ,"The listing you want to show doesn't exist",req,res);
       res.render("show.ejs", { product });
