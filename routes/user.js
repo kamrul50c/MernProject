@@ -1,5 +1,5 @@
 const express = require("express");
-const route = express.Router();
+const router = express.Router();
 const wrap_async = require("../utility/wrap_async.js");
 const Cerror = require("../utility/ExpressError.js");
 const usermodel = require("../models/user.js");
@@ -21,18 +21,23 @@ const validateuserf = (req, res, next) => {
 };
 
 //signup route
-route.get("/signup",userController.signupfrom);
+router
+  .route("/signup")
+  .get(userController.signupfrom)
+  .post(validateuserf, wrap_async(userController.signup));
 
-route.post("/signup", validateuserf, wrap_async(userController.signup));
 
 //login route
 
-route.get("/login",userController.loginFrom );
+router
+  .route("/login")
+  .get(userController.loginFrom )
+  .post( saverredirecturl,passport.authenticate('local', {failureRedirect: '/login',failureFlash:true, }), userController.login);
 
-route.post('/login', saverredirecturl,passport.authenticate('local', {failureRedirect: '/login',failureFlash:true, }), userController.login);
 
 
 
   //logout
-route.get("/logout",userController.logOut);
-module.exports = route;
+  router.get("/logout",userController.logOut);
+
+module.exports = router;
