@@ -6,6 +6,7 @@ const usermodel = require("../models/user.js");
 const validateuser = require("../validateSchema/uservalidateSchema.js");
 const passport = require("passport");
 const { saverredirecturl } = require("./middleware/isauthenticate.js");
+const userController=require("../controller/user.js")
 
 
 //validateproduct function
@@ -20,64 +21,18 @@ const validateuserf = (req, res, next) => {
 };
 
 //signup route
-route.get("/signup", (req, res) => {
-  res.render("signup.ejs");
-});
+route.get("/signup",userController.signupfrom);
 
-route.post(
-  "/signup",
-  validateuserf,
-  wrap_async(async (req, res) => {
-    try {
-      let { username, email, password } = req.body;
-      const newuser = new usermodel({ username, email });
-      const registrUser = await usermodel.register(newuser, password);
-      
-      // redirect page after sign up
-      req.login(registrUser,(err)=>{
-        if(err){
-          return next(err);
-        }else{
-          req.flash("msuccess", "User registration succesfull");
-          res.redirect("/index");
-        }
-      })
-    } catch (e) {
-      req.flash("error", e.message);
-      res.redirect("/signup");
-    }
-  })
-);
+route.post("/signup", validateuserf, wrap_async(userController.signup));
 
 //login route
 
-route.get("/login", (req, res) => {
-  res.render("login.ejs");
-});
+route.get("/login",userController.loginFrom );
 
-route.post('/login', saverredirecturl,
-    passport.authenticate('local', {
-      failureRedirect: '/login',failureFlash:true,
-      
-    }), 
-    async (req, res) => {
-      req.flash('success', 'Successfully logged in');
-      let redirectUrl=res.locals.redirectUrl || "/index" ;
-      res.redirect(redirectUrl);
-    }
-  );
+route.post('/login', saverredirecturl,passport.authenticate('local', {failureRedirect: '/login',failureFlash:true, }), userController.login);
 
 
 
   //logout
-route.get("/logout",(req,res,next)=>{
-  req.logOut((err)=>{
-    if(err){
-      return next(err);
-    }else{
-      req.flash("dlt","logout succesfull");
-      res.redirect("/index");
-    }
-  })
-})
+route.get("/logout",userController.logOut);
 module.exports = route;
