@@ -28,7 +28,19 @@
     <form method="post" action="/product/<%=product._id%>/review" class="needs-validation" novalidate>
       <div >
         <label for="rating">Rating: </label>
-        <input class="form-range mr-5" type="range" id="rating" max="5" min="1" name="rating" value="2" placeholder="">
+        <fieldset class="starability-slot" id="rating">
+          <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="1" checked aria-label="No rating." />
+          <input type="radio" id="second-rate1" name="rating" value="1" />
+          <label for="second-rate1" title="Terrible">1 star</label>
+          <input type="radio" id="second-rate2" name="rating" value="2" />
+          <label for="second-rate2" title="Not good">2 stars</label>
+          <input type="radio" id="second-rate3" name="rating" value="3" />
+          <label for="second-rate3" title="Average">3 stars</label>
+          <input type="radio" id="second-rate4" name="rating" value="4" />
+          <label for="second-rate4" title="Very good">4 stars</label>
+          <input type="radio" id="second-rate5" name="rating" value="5" />
+          <label for="second-rate5" title="Amazing">5 stars</label>
+        </fieldset>
       </div>
       <div >
         <label class="form-label" for="comment">Write Comment: </label>
@@ -46,9 +58,9 @@
           <div class="card-body">
             <h5 class="card-title"><%= review.Author.username %></h5>
             <h6 class="card-subtitle mb-2 text-body-secondary">
-              <% for(let i=0; i<(review.rating); i++) {%>
-                <span class="star">&#9733;</span>
-              <% } %>
+              <p class="starability-result" data-rating=<%= review.rating%>>
+                
+              </p>
             </h6>
             <p class="card-text"><%= review.comment%></p>
             
