@@ -60,7 +60,7 @@ const validateproduct = (req, res, next) => {
   
   route.get( "/edit/:id", islogin, isOwner,wrap_async(controller.edit) );
   
-  route.put("/update/:id", islogin, isOwner,validateproduct, wrap_async(controller.update));
+  route.put("/update/:id", islogin, isOwner,upload.single('image[file]'),validateproduct, wrap_async(controller.update));
   
 
 

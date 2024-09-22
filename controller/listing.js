@@ -76,10 +76,16 @@ module.exports.index=async (req, res) => {
   module.exports.update=async (req, res) => {
     let { id } = req.params;
     let updateData = req.body;
-    await listening.findByIdAndUpdate(id, updateData, {
+    let updatelisting =await listening.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true,
     });
+    if(typeof req.file !="undefined"){
+      let url=req.file.path;
+      let filename=req.file.filename;
+      updatelisting.image={filename, url};
+      await updatelisting.save();
+    }
     req.flash("success","listing is updated");
 
     res.redirect(`/show/${id}`);
