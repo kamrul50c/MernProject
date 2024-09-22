@@ -70,7 +70,9 @@ module.exports.index=async (req, res) => {
     let { id } = req.params;
     const currentproduct = await listening.findById(id);
     flasherr(currentproduct,"The listing you have search dosen't exist",req,res);
-    res.render("edit.ejs", { currentproduct });
+    let currentimage=currentproduct.image.url;
+    currentimage=currentimage.replaceAll("/upload","/upload/h_200,w_200");
+    res.render("edit.ejs", { currentproduct,currentimage });
   };
 
   module.exports.update=async (req, res) => {
