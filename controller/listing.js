@@ -47,8 +47,12 @@ module.exports.index=async (req, res) => {
 
 
   module.exports.create=async (req, res, next) => {
+    let url=req.file.path;
+    let filename=req.file.filename;
+    console.log("path",url,"name",filename,"req body",req.body);
     let newproduct = new listening(req.body);
     newproduct.owner=req.user._id;
+    newproduct.image={filename, url};
     await newproduct.save();
     req.flash("success", "New listing created!");
     res.redirect("/index");

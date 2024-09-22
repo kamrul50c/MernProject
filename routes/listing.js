@@ -9,9 +9,21 @@ const {islogin, isOwner}= require("./middleware/isauthenticate.js");
 const user=require("../models/user.js")
 const controller=require("../controller/listing.js")
 
+const multer  = require('multer')
+const {storage}=require("../cloudeConfig.js");
+const upload = multer({ storage });
+
+
 //validateproduct function
 const validateproduct = (req, res, next) => {
-  const { error } = productSchema.validate(req.body);
+   // Include file data for validation if it's needed
+   const { filename, url } = req.file || { filename: null, url: null };
+  
+   // Validate request body and include image data if necessary
+   const { error } = productSchema.validate({
+     ...req.body,
+     image: { filename, url }
+   });
   if (error) {
     let msgerr=error.details.map((el)=>el.message).join(",")
     throw new Cerror(400, msgerr); // Handle validation error
@@ -36,7 +48,9 @@ const validateproduct = (req, res, next) => {
   route.get("/new",islogin,controller.newlistiong);
   
   //create
-  route.post("/create",islogin,validateproduct,wrap_async(controller.create) );
+  route.post("/create",
+     islogin,upload.single('image[file]') ,validateproduct,wrap_async(controller.create) 
+    );
   
   // /delete route
   

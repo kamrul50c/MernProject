@@ -7,7 +7,7 @@ const productSchema = Joi.object({
   location: Joi.string().required(),
   country: Joi.string().required(),
   image: Joi.object({
-    filename: Joi.string().optional().max(10).allow("",null),
+    filename: Joi.string().optional().allow("",null),
     url: Joi.string().optional().allow("",null),
   }).optional(),
 });
