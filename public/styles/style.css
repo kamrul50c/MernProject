@@ -107,6 +107,10 @@ body{
     height: 40vh;
     
 }
+#my-map {
+    height: 400px;
+    width: 90vh;
+}
 
 .edit-delete-btn{
     display: flex;
