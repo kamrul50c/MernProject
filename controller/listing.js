@@ -53,12 +53,12 @@ module.exports.index=async (req, res) => {
       query:req.body.location,
       limit:1
     })
-    res.json(response.features[0].geometry);
     let url=req.file.path;
     let filename=req.file.filename;
     let newproduct = new listening(req.body);
     newproduct.owner=req.user._id;
     newproduct.image={filename, url};
+    newproduct.Geolocation=response.features[0].geometry;
     await newproduct.save();
     req.flash("success", "New listing created!");
     res.redirect("/index");
