@@ -51,6 +51,7 @@
     </form>
     <% } %>
     <hr>
+    <% if (product.review.length>0)  {  %>
     <p>All listing</p>
     <div class="row ">
       <% for(review of product.review) {  %>    
@@ -75,7 +76,10 @@
         </div>
         <%}%>
       
-    </div>
+    </div>  
+    <% } %>
+
+    <h2> Where you,ll be</h2>
  </div>
 </div>
 
