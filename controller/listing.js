@@ -1,5 +1,6 @@
 const listening=require("../models/listening.js");
-
+const geocodingClient = require("../geocodingClient.js");
+const { response } = require("express");
 
 
 //flash err function
@@ -47,9 +48,14 @@ module.exports.index=async (req, res) => {
 
 
   module.exports.create=async (req, res, next) => {
+
+    let response =await geocodingClient.forwardGeocode({
+      query:req.body.location,
+      limit:1
+    })
+    res.json(response.features[0].geometry);
     let url=req.file.path;
     let filename=req.file.filename;
-    console.log("path",url,"name",filename,"req body",req.body);
     let newproduct = new listening(req.body);
     newproduct.owner=req.user._id;
     newproduct.image={filename, url};
