@@ -1,7 +1,11 @@
 <% layout('/layouts/boilerplate') -%>
 <script>
-  const mapToken= "<%= process.env.MAP_TOKEN%>" ;
+  const mapToken = "<%= process.env.MAP_TOKEN %>";
+  const coordinates = <%- JSON.stringify(product.Geolocation.coordinates) %>; // Get coordinates
+
+  console.log("Coordinates:", coordinates); // Debugging output
 </script>
+
 <div class="row">
     <div class="col-9 mt-2 offset-2 mt-3">
         <h2><%= product.title %></h2>
@@ -88,8 +92,8 @@
       
   
     </div>
-    
  </div>
 </div>
+
  
 <script src="/js/map.js"></script>
