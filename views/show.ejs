@@ -1,9 +1,16 @@
 <% layout('/layouts/boilerplate') -%>
 <script>
   const mapToken = "<%= process.env.MAP_TOKEN %>";
-  const coordinates = <%- JSON.stringify(product.Geolocation.coordinates) %>; // Get coordinates
+  const coordinates = <%- JSON.stringify(
+    (product.Geolocation && 
+     product.Geolocation.coordinates && 
+     Array.isArray(product.Geolocation.coordinates) && 
+     product.Geolocation.coordinates.length === 2) 
+        ? product.Geolocation.coordinates 
+        : [106.5348, 38.7946] // Default coordinates
+) %>;
 
-  console.log("Coordinates:", coordinates); // Debugging output
+
 </script>
 
 <div class="row">
@@ -57,7 +64,6 @@
       <button class="btn btn-dark review-btn mt-2">submit</button>
     </form>
     <% } %>
-    <hr>
     <% if (product.review.length>0)  {  %>
     <p>All listing</p>
     <div class="row ">

@@ -1,12 +1,13 @@
 // Get your own API Key on https://myprojects.geoapify.com
 var myAPIKey = mapToken;
 
+console.log("check coordinates",coordinates);
 var map = new maplibregl.Map({
     container: 'my-map',
     style: `https://maps.geoapify.com/v1/styles/klokantech-basic/style.json?apiKey=${myAPIKey}`,
     
     center: coordinates, // Set initial map center [lng, lat]
-    zoom: 9 // Set initial zoom level
+    zoom: 10 // Set initial zoom level
 });
 
 map.addControl(new maplibregl.NavigationControl());
